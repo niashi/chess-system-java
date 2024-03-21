@@ -53,15 +53,29 @@ public class Board {
         return (row >= 0) && (row < rows) && (column >= 0) && (column < columns);
     }
 
-    private boolean positionExists(Position position) {
+    public boolean positionExists(Position position) {
         return positionExists(position.getRow(), position.getColumn());
     }
 
-    private boolean thereIsAPiece(Position position) {
+    public boolean thereIsAPiece(Position position) {
         if (!positionExists(position)) {
             throw new BoardException("Invalid position.");
         }
         // Se houver uma peça nessa posição, o atributo position da classe Peça será diferente de null
         return piece(position) != null;
+    }
+
+    public Piece removePiece(Position position) {
+        if (!positionExists(position)) {
+            throw new BoardException("Position not in the board");
+        }
+        if (piece(position) == null) {
+            return null;
+        }
+        Piece aux = piece(position);
+        aux.position = null;
+        pieces[position.getRow()][position.getColumn()] = null;
+
+        return aux;
     }
 }
